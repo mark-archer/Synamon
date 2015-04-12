@@ -16,8 +16,7 @@ Template.synonyms.events({
             return;
         word = $input.val();
         $input.val('');
-        getWord(word, function(wordObj){
-            console.log(wordObj);
+        word_get(word, function(wordObj){
             selectedWord.set(wordObj);
         });
     }

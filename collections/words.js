@@ -14,21 +14,29 @@ if(Meteor.isServer) {
     });
 
     Meteor.methods({
-        lookupWord: function(word){
+        word_lookup: function(word){
             this.unblock();
             var url = "http://www.thesaurus.com/browse/" + word;
             return Meteor.http.get(url);
-        }
+        },
 
+        word_add: function(word){
+            if(Words.findOne({word: word.word})){
+                var errMsg = "'" + word.word + "' already exists in database";
+                throw new Meteor.Error(400,errMsg);
+            }
+            var word_id = Words.insert(word);
+            return word_id;
+        }
     });
 }
 
 if(Meteor.isClient){
     publicWords= Meteor.subscribe('publicWords');
 
-    getWord = function(word, callback){
+    word_get = function(word, callback){
 
-        // todo: check if word is already in the database
+        // check if word is already in the database
         var wordDB = Words.findOne({word: word});
         if(wordDB){
             callback(wordDB);
@@ -36,7 +44,13 @@ if(Meteor.isClient){
         }
 
         // use the server to lookup the word from the interweb
-        Meteor.call('lookupWord', word, function(err, res){
+        Meteor.call('word_lookup', word, function(err, res){
+            if(err){
+                var err = new Meteor.Error(500,"We couldn't lookup that word, are you sure it's spelled correctly?",err);
+                handle_error(err);
+                callback(null);
+                return;
+            }
             var doc = $(res.content);
             var wordProper = doc.find('h1').text();
             var word = {
@@ -57,7 +71,15 @@ if(Meteor.isClient){
                 word.antonyms.push(w);
             });
 
-            callback(word);
+            Meteor.call('word_add', word, function(err, word_id){
+                if(err){
+                    handle_error(err);
+                    callback(null);
+                    return;
+                }
+                var word = Words.findOne(word_id);
+                callback(word);
+            });
         });
     }
 }

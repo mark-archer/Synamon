@@ -41,6 +41,22 @@
             </div>
         {{/unless}}
 
+        {{#if errorsExist}}
+            <div class="notifications">
+                <div class="notification">
+                    <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+
+                    {{#each errors}}
+                        <div class="meta">
+                            <div class="title-notification">Error {{error}}</div>
+                            <div class="description">{{reason}}</div>
+                        </div>
+                        <br />
+                    {{/each}}
+                </div>
+            </div>
+        {{/if}}
+
         <div class="content-overlay"></div>
 
         <div id="content-container">
