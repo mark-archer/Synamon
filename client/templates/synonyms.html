@@ -7,19 +7,56 @@
                 <a href="#" class="js-menu nav-item"><span class="icon-list-unordered"></span></a>
             </div>
 
-            <h1 class="title-page" style="cursor: default;"><span class="title-wrapper">Synonyms</span> <span class="count-list">1</span></h1>
+            <h1 class="title-page" style="cursor: default;"><span class="title-wrapper">Synonyms</span>
+                <!--<span class="count-list">1</span>-->
+            </h1>
 
             <form class="js-todo-new todo-new input-symbol">
-                <input type="text" placeholder="Type to search for words">
+                <input id="inpSearch" type="text" placeholder="Type to search for words" autocomplete="off">
                 <span class="icon-add js-todo-add"></span>
             </form>
         </nav>
 
 
         <div class="content-scrollable list-items">
-            <div class="wrapper-message">
-                <div class="title-message">Loading words...</div>
-            </div>
+            {{#unless selectedWord}}
+                <div class="wrapper-message">
+                    Search for a word up top ^
+                </div>
+            {{/unless}}
+            {{#if selectedWord}}
+                {{>synonymWord selectedWord}}
+            {{/if}}
+        </div>
+    </div>
+
+
+</template>
+
+<template name="synonymWord">
+
+    <h2>{{word}}</h2>
+    <div class="container">
+        <hr/>
+        <h4>Synonyms</h4>
+        <div class="container-flow">
+            {{#each synonyms}}
+                <div class="col-md-2">
+                    {{this}}
+                </div>
+            {{/each}}
+        </div>
+    </div>
+
+    <div class="container">
+        <hr/>
+        <h4>Antonyms</h4>
+        <div class="container-flow">
+            {{#each antonyms}}
+                <div class="col-md-2">
+                    {{this}}
+                </div>
+            {{/each}}
         </div>
     </div>
 
