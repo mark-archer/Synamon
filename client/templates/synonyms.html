@@ -1,5 +1,7 @@
 <template name="synonyms">
 
+
+
     <div class="page lists-show">
         <nav class="js-title-nav">
 
@@ -7,18 +9,20 @@
                 <a href="#" class="js-menu nav-item"><span class="icon-list-unordered"></span></a>
             </div>
 
-            <h1 class="title-page" style="cursor: default;"><span class="title-wrapper">Synonyms</span>
+            <h1 class="title-page" style="cursor: default;"><span class="title-wrapper">Synonyms - Create Question</span>
                 <!--<span class="count-list">1</span>-->
             </h1>
 
             <form class="js-todo-new todo-new input-symbol">
                 <input id="inpSearch" type="text" placeholder="Type to search for words" autocomplete="off">
-                <span class="icon-add js-todo-add"></span>
+                <span class="icon-generic">
+                    <span class="glyphicon glyphicon-search"></span>
+                </span>
             </form>
         </nav>
 
-
         <div class="content-scrollable list-items">
+
             {{#unless selectedWord}}
                 <div class="wrapper-message">
                     Search for a word up top ^
@@ -39,9 +43,21 @@
     <div class="container">
         <hr/>
         <h4>Synonyms</h4>
-        <div class="container-flow">
-            {{#each synonyms}}
-                <div class="col-md-3">
+        <div class="row">
+        {{#each synonyms}}
+            <div class="col-xs-6 col-md-3">
+                {{this}}
+            </div>
+        {{/each}}
+        </div>
+    </div>
+
+    <div class="container">
+        <hr/>
+        <h4>Antonyms</h4>
+        <div class="row">
+            {{#each antonyms}}
+                <div class="col-xs-6 col-md-3">
                     {{this}}
                 </div>
             {{/each}}
@@ -50,11 +66,14 @@
 
     <div class="container">
         <hr/>
-        <h4>Antonyms</h4>
-        <div class="container-flow">
-            {{#each antonyms}}
-                <div class="col-md-3">
-                    {{this}}
+        <h4>Other Random Words
+            <span id="btnRefresh" class="button-refresh glyphicon glyphicon-refresh" aria-hidden="true"></span>
+        </h4>
+
+        <div class="row">
+            {{#each randomWords}}
+                <div class="col-xs-6 col-md-3">
+                    {{word}}
                 </div>
             {{/each}}
         </div>

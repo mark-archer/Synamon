@@ -21,3 +21,18 @@ Template.synonyms.events({
         });
     }
 });
+
+Template.synonymWord.helpers({
+    randomWords: function(){
+        return Words.find({},{limit:4});
+    }
+
+});
+
+Template.synonymWord.events({
+   "click #btnRefresh" : function(){
+       var sw = selectedWord.get();
+       selectedWord.set(null);
+       selectedWord.set(sw);
+   }
+});
