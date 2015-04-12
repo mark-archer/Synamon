@@ -11,3 +11,8 @@ if(Meteor.isServer) {
         return [];
     })
 }
+
+if(Meteor.isClient){
+    publicSynonyms = Meteor.subscribe('publicSynonyms');
+    privateSynonyms = Meteor.subscribe('privateSynonyms');
+}
