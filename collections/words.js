@@ -54,7 +54,7 @@ if(Meteor.isClient){
             var doc = $(res.content);
             var is_misspelled = doc.find('.misspelled').size() > 0;
             if(is_misspelled){
-                err = new Meteor.Error(500,"Oops, looks like that's not valid word, are you sure it's spelled correctly?");
+                err = new Meteor.Error(500,"Oops, looks like that's not a valid word, are you sure it's spelled correctly?");
                 handle_error(err);
                 callback(null);
                 return;
