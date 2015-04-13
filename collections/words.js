@@ -46,12 +46,20 @@ if(Meteor.isClient){
         // use the server to lookup the word from the interweb
         Meteor.call('word_lookup', word, function(err, res){
             if(err){
-                var err = new Meteor.Error(500,"We couldn't lookup that word, are you sure it's spelled correctly?",err);
+                err = new Meteor.Error(500,"We couldn't lookup that word, are you sure it's spelled correctly?",err);
                 handle_error(err);
                 callback(null);
                 return;
             }
             var doc = $(res.content);
+            var is_misspelled = doc.find('.misspelled').size() > 0;
+            if(is_misspelled){
+                err = new Meteor.Error(500,"Oops, looks like that's not valid word, are you sure it's spelled correctly?");
+                handle_error(err);
+                callback(null);
+                return;
+            }
+
             var wordProper = doc.find('h1').text();
             var word = {
                 word: wordProper,
