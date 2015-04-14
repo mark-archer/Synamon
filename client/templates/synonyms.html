@@ -1,7 +1,5 @@
 <template name="synonyms">
 
-
-
     <div class="page lists-show">
         <nav class="js-title-nav">
 
@@ -39,7 +37,26 @@
 
 <template name="synonymWord">
 
-    <h2>{{word}}</h2>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-6 col-md-3">
+                <h2>{{word}}</h2>
+            </div>
+            <div class="col-xs-6 col-md-3">
+                <h5>Question</h5>
+                Find the word that means the same as <b>{{word}}</b>.
+            </div>
+            <div class="col-xs-6 col-md-3">
+                <h5>Synonym</h5>
+                synonym
+            </div>
+            <div class="col-xs-6 col-md-3">
+                <h5>Distractors</h5>
+                distractors
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <hr/>
         <h4>Synonyms</h4>
