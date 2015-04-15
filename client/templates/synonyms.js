@@ -4,6 +4,10 @@ selectedWord = new ReactiveVar(null);
 Template.synonyms.helpers({
     selectedWord: function(){
         return selectedWord.get();
+    },
+
+    existingQuestions: function(){
+        return [1,2];
     }
 
 });
