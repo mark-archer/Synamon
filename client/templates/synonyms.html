@@ -7,7 +7,7 @@
                 <a href="#" class="js-menu nav-item"><span class="icon-list-unordered"></span></a>
             </div>
 
-            <h1 class="title-page" style="cursor: default;"><span class="title-wrapper">Synonyms - Create Question</span>
+            <h1 class="title-page" style="cursor: default;"><span class="title-wrapper">Synonym Questions</span>
                 <!--<span class="count-list">1</span>-->
             </h1>
 
@@ -42,48 +42,99 @@
             <div class="col-xs-6 col-md-2">
                 <h2>Word: {{word}}</h2>
             </div>
+        </div>
+    </div>
+    <hr/>
+
+    {{#if newQuestion}}
+        {{>question_create}}
+    {{/if}}
+
+    {{#unless newQuestion}}
+        <div class="container">
+            <h4>Existing Questions
+                <span id="btnNewQuestion" class="glyphicon glyphicon-plus" style="cursor: pointer;"
+                      title="Create a new question"></span>
+            </h4>
+
+            {{#each existingQuestions}}
+            <div class="row col-md-9">
+                <div class="col-xs-6 col-md-3">
+                    question
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    {{/unless}}
+
+
+
+</template>
+
+<template name="question_create">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-6 col-md-2">
+                <h4>New Question
+                    <span id="btnCancelQuestion" class="glyphicon glyphicon-remove" style="cursor: pointer;"
+                            title="Discard this question"></span>
+                </h4>
+
+                {{#if validQuestion}}
+                    <button id="btnSaveQuestion" type="button" class="btn btn-info">
+                        Save
+                        <span class="glyphicon glyphicon-floppy-save" style="cursor: pointer;" ></span>
+                    </button>
+                {{/if}}
+            </div>
+
             <div class="col-xs-6 col-md-2">
                 <h5>Question</h5>
                 Find the word that means the same as <b>{{word}}</b>.
             </div>
             <div class="col-xs-6 col-md-2">
                 <h5>Synonym</h5>
-                synonym
+                {{#if synonym}}
+                    <div class="synonym-selected">
+                        {{synonym}}
+                    </div>
+                    <h6>tap to change</h6>
+                {{/if}}
+                {{#unless synonym}}
+                    <h6>select below</h6>
+                {{/unless}}
             </div>
             <div class="col-xs-6 col-md-2">
                 <h5>Distractors</h5>
-                distractors
+                {{#if distractors}}
+                    {{#each distractors}}
+                        <div class="distractor">{{this}}</div>
+                    {{/each}}
+                    <h6>select more if desired</h6>
+                {{/if}}
+                {{#unless distractors}}
+                    <h6>select below</h6>
+                {{/unless}}
             </div>
         </div>
     </div>
 
-    <div class="container">
-        <hr/>
-        <h4>Existing Questions</h4>
-
-        <div class="row col-md-9">
-            {{#each existingQuestions}}
-                <div class="col-xs-6 col-md-3">
-                    question
-                </div>
-            {{/each}}
-        </div>
-
-    </div>
-
+    {{#unless synonym}}
     <div class="container">
         <hr/>
         <h4>Synonyms</h4>
 
         <div class="row col-md-9">
             {{#each synonyms}}
-                <div class="col-xs-6 col-md-3">
+                <div class="col-xs-6 col-md-3 synonym">
                     {{this}}
                 </div>
             {{/each}}
         </div>
 
     </div>
+    {{/unless}}
 
 
 
@@ -92,7 +143,7 @@
         <h4>Antonyms</h4>
         <div class="row col-md-9">
             {{#each antonyms}}
-                <div class="col-xs-6 col-md-3">
+                <div class="col-xs-6 col-md-3 distractor">
                     {{this}}
                 </div>
             {{/each}}
@@ -101,18 +152,18 @@
 
     <div class="container">
         <hr/>
-        <h4>Other Random Words
+        <h4>Other Words
             <span id="btnRefresh" class="button-refresh glyphicon glyphicon-refresh" aria-hidden="true"></span>
+            <input id="randWordSearch" placeholder="search"/>
         </h4>
 
         <div class="row col-md-9">
             {{#each randomWords}}
-                <div class="col-xs-6 col-md-3">
+                <div class="col-xs-6 col-md-3 distractor">
                     {{word}}
                 </div>
             {{/each}}
         </div>
     </div>
-
 
 </template>
