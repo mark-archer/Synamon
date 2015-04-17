@@ -38,11 +38,7 @@
 <template name="synonymWord">
 
     <div class="container">
-        <div class="row">
-            <div class="col-xs-6 col-md-2">
-                <h2>Word: {{word}}</h2>
-            </div>
-        </div>
+        <h2>Word: {{word}}</h2>
     </div>
     <hr/>
 
@@ -56,11 +52,26 @@
                 <span id="btnNewQuestion" class="glyphicon glyphicon-plus" style="cursor: pointer;"
                       title="Create a new question"></span>
             </h4>
+            <br />
 
             {{#each existingQuestions}}
             <div class="row col-md-9">
                 <div class="col-xs-6 col-md-3">
-                    question
+                    <button id="btnSaveQuestion" type="button" class="btn btn-info">
+                        Select
+                        <span class="glyphicon glyphicon-menu-right" style="cursor: pointer;" ></span>
+                    </button>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <h5>Synonym</h5>
+                    {{synonym}}
+                </div>
+                <div class="col-xs-6 col-md-4">
+                    <h5>Distractors</h5>
+                    {{#each distractors}}
+                        <div class="col-xs-12 col-md-6">{{this}}</div>
+                    {{/each}}
+
                 </div>
             </div>
             {{/each}}
@@ -132,7 +143,6 @@
                 </div>
             {{/each}}
         </div>
-
     </div>
     {{/unless}}
 

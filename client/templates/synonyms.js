@@ -25,7 +25,9 @@ Template.synonyms.events({
 
 Template.synonymWord.helpers({
     existingQuestions: function(){
-        return [1,2];
+        var w = selectedWord.get();
+        if(!w)return[];
+        return Questions.find({word: w.word});
     },
 
     newQuestion: function(){
@@ -48,7 +50,12 @@ Template.synonymWord.events({
 
 Template.question_create.helpers({
     randomWords: function(){
-        return Words.find({},{limit:4});
+        var w = selectedWord.get();
+        var q = newQuestion.get();
+        var xwords = _.union([w.word, q.synonym], w.antonyms, w.synonyms, q.distractors);
+        console.log(xwords);
+
+        return Words.find({word: {$nin: xwords}},{limit:20});
     },
 
     validQuestion:function(){
@@ -102,5 +109,12 @@ Template.question_create.events({
             q.distractors.push(word);
         }
         newQuestion.set(q);
+    },
+
+    'click #btnSaveQuestion': function(){
+        var q = newQuestion.get();
+        Meteor.call('question_add', q, function(){
+            newQuestion.set(null);
+        });
     }
 });
