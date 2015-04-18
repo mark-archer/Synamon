@@ -14,7 +14,7 @@ Template.synonyms.events({
         var $input = $(event.target).find('[type=text]');
         if (! $input.val())
             return;
-        word = $input.val();
+        var word = $input.val();
         $input.val('');
         newQuestion.set(null);
         word_get(word, function(wordObj){
