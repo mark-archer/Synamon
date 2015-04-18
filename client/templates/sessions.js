@@ -41,7 +41,7 @@ Template.sessions.helpers({
 });
 
 Template.sessions.events({
-    'click #btnStartSession':function(){
+    'click #btnNewSession':function(){
         var client = currentClient.get();
         var session = {
             client: client._id,
@@ -51,18 +51,26 @@ Template.sessions.events({
         Meteor.call('session_add',session, function(err,session_id){
             if(err){
                 handle_error(err);
-                return;
             }
-            //todo: go to lesson
         });
     }
 });
 
 Template.sessionInProgress.helpers({
+   askingQuestions:function(){
+       var ses = currentSession();
+       if(ses.startDT && !ses.endDT && !ses.pauseDT){
+           return true;
+       }
+       return false;
+   }
+});
+
+Template.sessionManage.helpers({
     formatDT: formatDT
 });
 
-Template.sessionInProgress.events({
+Template.sessionManage.events({
     'click #btnAddQuestion': function(){
         var ses = currentSession();
         if(!ses.questions){
@@ -74,6 +82,12 @@ Template.sessionInProgress.events({
             synonym:'',
             distractors:[]
         });
+        Meteor.call('session_update', ses);
+    },
+
+    'click #btnStartSession': function(){
+        var ses = currentSession();
+        ses.startDT = new Date();
         Meteor.call('session_update', ses);
     }
 });

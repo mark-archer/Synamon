@@ -19,13 +19,6 @@
         <div class="container content-scrollable list-items">
 <pre>
 
-    show current session
-        client
-        createDT
-        startDT
-    select lesson
-        existing
-        or create new
     start session
         ask questions in lesson
     end session
@@ -40,7 +33,7 @@
             {{#unless currentSession}}
                 <div class="container">
                     <h5>You don't have a session in progress.</h5>
-                    <button id="btnStartSession" type="button" class="btn btn-info">
+                    <button id="btnNewSession" type="button" class="btn btn-info">
                         New Session
                     </button>
                 </div>
@@ -62,6 +55,49 @@
 </template>
 
 <template name="sessionInProgress">
+
+    {{#if askingQuestions}}
+        {{>sessionAskQuestions}}
+    {{/if}}
+    {{#unless askingQuestions}}
+        {{>sessionManage}}
+    {{/unless}}
+
+</template>
+
+<template name="sessionAskQuestions">
+    <div class="container">
+        <div class="dropdown">
+
+            <span class="dropdown-toggle glyphicon glyphicon-menu-hamburger"
+                  style="cursor: pointer;"
+                  id="questionsDDM" data-toggle="dropdown" aria-expanded="true">
+            </span>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="questionsDDM">
+                <li role="presentation">
+                    <a role="menuitem" tabindex="-1" href="#">
+                        <span id="btnPause" class="glyphicon glyphicon-pause" style="cursor: pointer;" title="Add question" >Pause Session</span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                Word
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    Distractor
+                </div>
+            </div>
+        </div>
+
+    </div>
+</template>
+
+<template name="sessionManage">
     <div class="container">
 
         <div class="row col-md-12" style="margin: 10px;">
@@ -95,8 +131,12 @@
                 <span id="btnAddQuestion" class="glyphicon glyphicon-plus" style="cursor: pointer;" title="Add question" ></span>
             </h4>
             <br />
-            <table class="table table-striped">
-                <thead>
+            {{#unless questions.length}}
+                No questions, add some with the plus sign above
+            {{/unless}}
+            {{#if questions.length}}
+                <table class="table table-striped">
+                    <thead>
                     <td>
                         Word
                     </td>
@@ -109,13 +149,14 @@
                     <td>
                         &nbsp;
                     </td>
-                </thead>
-                <tbody>
-                {{#each questions}}
-                    {{>sessionQuestion}}
-                {{/each}}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    {{#each questions}}
+                        {{>sessionQuestion}}
+                    {{/each}}
+                    </tbody>
+                </table>
+            {{/if}}
 
         </div>
 
@@ -155,12 +196,12 @@
         </td>
         <td>
             {{#each distractors}}
-                <div>
+                <div style="margin: 10px;">
                     <span>{{this}}</span>
                     <span
                         id="btnDeleteDistractor"
                         class="glyphicon glyphicon-remove-sign" aria-hidden="true"
-                        style="cursor: pointer;margin-left: 5px"></span>
+                        style="cursor: pointer;"></span>
                 </div>
             {{/each}}
             <input id="inpAddDistractor" type="text" placeholder="add distractor" style="background-color: transparent" />
