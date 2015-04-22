@@ -164,3 +164,16 @@ Template.sessionQuestion.events({
         Meteor.call('session_update', ses);
     }
 });
+
+Template.sessionAskQuestions.helpers({
+
+});
+
+Template.sessionAskQuestions.events({
+
+    'click #btnPause': function(){
+        var stuff
+        console.log()
+    }
+
+});
