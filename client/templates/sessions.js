@@ -88,6 +88,7 @@ Template.sessionManage.events({
     'click #btnStartSession': function(){
         var ses = currentSession();
         ses.startDT = new Date();
+        ses.pauseDT = null;
         Meteor.call('session_update', ses);
     }
 });
@@ -165,15 +166,35 @@ Template.sessionQuestion.events({
     }
 });
 
-Template.sessionAskQuestions.helpers({
+currentQuestion = function(){
+    var session = currentSession();
+    return _.find(session.questions, function(q){
+        return !q.answered_correctDT && !q.cancledDT;
+    });
+}
 
+Template.sessionAskQuestions.helpers({
+    word: function(){
+        return currentQuestion().word;
+    },
+
+    answer_options: function(){
+        var question = currentQuestion();
+        var options = _.shuffle(question.distractors);
+
+        options.push(question.synonym);
+        options = _.shuffle(options);
+        console.log(options);
+        return options;
+    }
 });
 
 Template.sessionAskQuestions.events({
 
     'click #btnPause': function(){
-        var stuff
-        console.log()
+        var session = this;
+        session.pauseDT = new Date();
+        Meteor.call('session_update',session);
     }
 
 });

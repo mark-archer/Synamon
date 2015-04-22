@@ -83,14 +83,19 @@
             </ul>
         </div>
 
-        <div class="container">
+        <div class="container col-md-8">
             <div class="row">
-                Word
+                <div class="jumbotron">
+                    <h1>{{word}}</h1>
+
+                </div>
             </div>
             <div class="row">
-                <div class="col-md-4">
-                    Distractor
-                </div>
+                {{#each answer_options}}
+                    <div class="jumbotron col-md-3">
+                        {{this}}
+                    </div>
+                {{/each}}
             </div>
         </div>
 
@@ -107,6 +112,11 @@
                         Start Session
                     </button>
                 {{/unless}}
+                {{#if pauseDT}}
+                    <button id="btnStartSession" type="button" class="btn btn-info">
+                        Resume Session
+                    </button>
+                {{/if}}
                 {{#if startDT}}
                     <button id="btnEndSession" type="button" class="btn btn-info">
                         End Session
