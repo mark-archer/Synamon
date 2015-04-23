@@ -39,6 +39,14 @@ Template.sessions.helpers({
             query.client = client._id;
         }
         return Sessions.find(query, {sort: {createDT: -1}}).fetch();
+    },
+
+    askingQuestions:function(){
+        var ses = currentSession();
+        if(ses.startDT && !ses.endDT && !ses.pauseDT){
+            return true;
+        }
+        return false;
     }
 
 });

@@ -61,14 +61,18 @@ Template.appBody.onRendered(function () {
             $(node)
                 .hide()
                 .insertBefore(next)
-                .fadeIn(function () {
-                    //listFadeInHold.release();
-                });
+                .fadeIn();
         },
         removeElement: function (node) {
-            $(node).fadeOut(function () {
-                $(this).remove();
-            });
+            if($('.loading-app').length > 0)
+                $(node).fadeOut(function () {
+                    $(this).remove();
+                });
+            else
+                $(node).hide(function () {
+                    $(this).remove();
+                });
+
         }
     };
 });

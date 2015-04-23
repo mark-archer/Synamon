@@ -1,4 +1,9 @@
 
+.content-container {
+    /*position: absolute;*/
+    /*top: -20px;*/
+    /*width: 100%;*/
+}
 
 .container-centered {
     text-align: center;
@@ -35,4 +40,16 @@
 
 .loading-apploading-apploading-app img {
     width: 100%;
+}
+
+.notifications {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.btn-top-right {
+    position: absolute;
+    top: 20px;
+    right: 20px;
 }

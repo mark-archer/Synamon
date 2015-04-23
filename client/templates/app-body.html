@@ -2,6 +2,7 @@
     <div class="container-fluid">
 
         <section>
+            <br />
             <div class="dropdown">
 
                 <span class="dropdown-toggle btn btn-default"
@@ -19,12 +20,12 @@
             </div>
         </section>
 
-        <div class="container-centered">
+        <div>
 
             {{#unless connected}}
                 <div class="notifications">
                     <div class="notification">
-                        <span class="icon-sync"></span>
+                        <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
 
                         <div class="meta">
                             <div class="title-notification">Trying to connect</div>
@@ -53,7 +54,7 @@
         </div>
 
 
-        <div id="content-container">
+        <div id="content-container" class="content-container">
             {{#each thisArray}}
                 {{> yield}}
             {{/each}}
