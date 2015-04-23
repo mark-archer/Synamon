@@ -3,29 +3,31 @@
 
         <h1 class="title-auth">Sign In.</h1>
 
-        <p class="subtitle-auth"></p>
+        <div class="row">
 
-        <form>
-            {{#if errorMessages}}
-                <div class="list-errors">
-                    {{#each errorMessages}}
-                        <div class="list-item">{{this}}</div>
-                    {{/each}}
+            <form class="col-md-4 col-md-offset-4" >
+                {{#if errorMessages}}
+                    <div class="list-errors">
+                        {{#each errorMessages}}
+                            <div class="list-item">{{this}}</div>
+                        {{/each}}
+                    </div>
+                {{/if}}
+
+                <div class="input-symbol {{errorClass 'email'}} form-group">
+                    <input type="email" name="email" placeholder="Your Email" class="form-control"/>
+                    <span class="icon-email" title="Your Email"></span>
                 </div>
-            {{/if}}
 
-            <div class="input-symbol {{errorClass 'email'}}">
-                <input type="email" name="email" placeholder="Your Email"/>
-                <span class="icon-email" title="Your Email"></span>
-            </div>
+                <div class="input-symbol {{errorClass 'password'}} form-group">
+                    <input type="password" name="password" placeholder="Password" class="form-control"/>
+                    <span class="icon-lock" title="Password"></span>
+                </div>
 
-            <div class="input-symbol {{errorClass 'password'}}">
-                <input type="password" name="password" placeholder="Password"/>
-                <span class="icon-lock" title="Password"></span>
-            </div>
+                <button type="submit" class="btn-primary">Sign in</button>
+            </form>
+        </div>
 
-            <button type="submit" class="btn-primary">Sign in</button>
-        </form>
 
         <a href="{{pathFor 'join'}}" class="link-auth-alt">Need an account? Join Now.</a>
 
