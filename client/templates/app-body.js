@@ -114,7 +114,16 @@ Template.appBody.helpers({
     },
     errors: function(){
         return errors.get();
+    },
+    commands: function(){
+
+        return [{
+            text:"join",
+            title: "create an account",
+            href: "/join"
+        }]
     }
+
 });
 
 Template.appBody.events({

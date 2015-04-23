@@ -1,34 +1,22 @@
 <template name="appBody">
-    <div id="container" class="{{menuOpen}} {{cordova}}">
+    <div class="container-fluid">
 
         <section id="menu">
-            {{#if currentUser}}
-                <div class="btns-group-vertical">
-                    <a href="#" class="js-user-menu btn-secondary">
-                        {{#if userMenuOpen}}
-                            <span class="icon-arrow-up"></span>
-                        {{else}}
-                            <span class="icon-arrow-down"></span>
-                        {{/if}}
-                        {{emailLocalPart}}
-                    </a>
-                    {{#if userMenuOpen}}
-                        <a class="js-logout btn-secondary">Logout</a>
-                    {{/if}}
-                </div>
-            {{else}}
-                <div class="btns-group">
-                    <a href="{{pathFor 'signin'}}" class="btn-secondary">Sign In</a>
-                    <a href="{{pathFor 'join'}}" class="btn-secondary">Join</a>
-                </div>
-            {{/if}}
+            <div class="dropdown">
 
-            <div class="btns-group-vertical">
-                <a href="/clients" class="btn-secondary">Clients</a>
-            </div>
+            <span class="dropdown-toggle glyphicon glyphicon-menu-hamburger btn btn-default"
+                  style="cursor: pointer;"
+                  id="menuDDM" data-toggle="dropdown" aria-expanded="true">
+            </span>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="menuDDM">
+                    <li role="presentation">
 
-            <div class="btns-group-vertical">
-                <a href="/synonyms" class="btn-secondary">Synonyms</a>
+                        <a role="menuitem" tabindex="-1" href="#">
+                            <span id="btnPause" class="glyphicon glyphicon-pause" style="cursor: pointer;">Pause Session</span>
+                        </a>
+                    </li>
+
+                </ul>
             </div>
         </section>
 
@@ -61,7 +49,6 @@
             </div>
         {{/if}}
 
-        <div class="content-overlay"></div>
 
         <div id="content-container">
             {{#each thisArray}}
