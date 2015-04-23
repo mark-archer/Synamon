@@ -53,7 +53,7 @@
 <template name="sessionAskQuestions">
     <div class="container">
 
-        <button id="btnPause" type="button" class="btn btn-default btn-top-right">
+        <button id="btnPause" type="button" class="btn btn-default btn-top-right" style="border: none;">
             <span class="glyphicon glyphicon-pause" ></span>
         </button>
 
@@ -79,7 +79,7 @@
             </div>
         {{/if}}
         {{#unless currentQuestion}}
-            <div class="container col-md-8">
+            <div class="container col-md-11">
                 <div class="row">
                     <div style="text-align: center">
                         <h3>All questions answered!</h3>
@@ -173,8 +173,11 @@
 
 <template name="priorSession">
     <div class="container">
+        prior session
+    </div>
+    <div class="container">
 
-        <div class="row col-md-12" style="margin: 10px;">
+        <div class="row col-md-12" style="margin: 10px; display: none">
             <div class="col-xs-4 col-md-3" >
                 <a href="/session/{{_id}}" type="button" class="btn btn-info">
                     View
@@ -182,11 +185,11 @@
                 </a>
             </div>
             <div class="col-xs-4 col-md-3">
-                <h5 style="margin: 5px;">Created</h5>
+                <h4 style="margin: 5px;">Created</h4>
                 {{formatDT createDT}}
             </div>
             <div class="col-xs-4 col-md-3">
-                <h5 style="margin: 5px;">Ended</h5>
+                <h4 style="margin: 5px;">Ended</h4>
                 {{formatDT endDT}}
             </div>
         </div>

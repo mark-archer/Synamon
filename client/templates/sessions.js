@@ -10,21 +10,29 @@ currentSession = function(){
     if (client) {
         query.client = client._id;
     }
-    var cSession = Sessions.findOne(query);
-    if(!client && cSession)
-        currentClient.set(Clients.findOne(cSession.client));
+    var cSession = Sessions.findOne(query, {sort: {createDT: -1}});
+    if(!client && cSession) {
+        client = Clients.findOne(cSession.client);
+        currentClient.set(client);
+    }
+    if(!client) Router.go('/clients');
     return cSession;
-}
+};
+
+askingQuestions = function(){
+    var ses = currentSession();
+    if(ses && ses.startDT && !ses.endDT && !ses.pauseDT){
+        $('#menuMain').hide();
+        return true;
+    }
+    $('#menuMain').show();
+    return false;
+};
 
 Template.sessions.helpers({
 
     currentClient: function(){
         var client = currentClient.get();
-        if(!client)
-            currentSession();
-        client = currentClient.get();
-        if(!client)
-            Router.go('/clients');
         return client;
     },
 
@@ -41,13 +49,7 @@ Template.sessions.helpers({
         return Sessions.find(query, {sort: {createDT: -1}}).fetch();
     },
 
-    askingQuestions:function(){
-        var ses = currentSession();
-        if(ses.startDT && !ses.endDT && !ses.pauseDT){
-            return true;
-        }
-        return false;
-    }
+    askingQuestions: askingQuestions
 
 });
 
@@ -68,13 +70,7 @@ Template.sessions.events({
 });
 
 Template.sessionInProgress.helpers({
-   askingQuestions:function(){
-       var ses = currentSession();
-       if(ses.startDT && !ses.endDT && !ses.pauseDT){
-           return true;
-       }
-       return false;
-   }
+    askingQuestions: askingQuestions
 });
 
 Template.sessionManage.helpers({
