@@ -1,11 +1,15 @@
 <template name="appBody">
     <div class="container-fluid">
 
-        <section id="menu">
+        <section>
             <div class="dropdown">
-                <span class="dropdown-toggle glyphicon glyphicon-menu-hamburger btn btn-default"
+
+                <span class="dropdown-toggle btn btn-default"
                       style="cursor: pointer;"
                       id="menuDDM" data-toggle="dropdown" aria-expanded="true">
+                    {{emailLocalPart}}
+                    <span class="glyphicon glyphicon-menu-hamburger ">
+                    </span>
                 </span>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="menuDDM">
                     {{#each commands}}
@@ -13,7 +17,6 @@
                     {{/each}}
                 </ul>
             </div>
-
         </section>
 
         <div class="container-centered">

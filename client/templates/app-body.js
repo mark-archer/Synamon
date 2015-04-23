@@ -88,6 +88,9 @@ Template.appBody.helpers({
         return Meteor.isCordova && 'cordova';
     },
     emailLocalPart: function () {
+        if(!Meteor.user()){
+            return "";
+        }
         var email = Meteor.user().emails[0].address;
         return email.substring(0, email.indexOf('@'));
     },
