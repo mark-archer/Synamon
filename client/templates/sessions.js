@@ -36,17 +36,17 @@ Template.sessions.helpers({
         return client;
     },
 
-    currentSession: function(){
-        return currentSession();
-    },
+    currentSession: currentSession,
 
     priorSessions: function() {
         var client = currentClient.get();
-        var query = {};
+        var query = {
+            endDT : {$nin: [null, false]}
+        };
         if (client) {
             query.client = client._id;
         }
-        return Sessions.find(query, {sort: {createDT: -1}}).fetch();
+        return Sessions.find(query, {sort: {createDT: -1}, limit: 10}).fetch();
     },
 
     askingQuestions: askingQuestions
@@ -267,7 +267,25 @@ Template.priorSessionQuestion.helpers({
     distractors_not_selected: function(){
         var question = this;
         return _.difference(question.distractors, question.answers);
+    },
+
+    currentSession: currentSession
+});
+
+Template.priorSessionQuestion.events({
+    'click #btnAskAgain': function(){
+        var question = this;
+        var session = currentSession();
+        var question_copy = {
+            _id: (new Mongo.ObjectID())._str,
+            word: question.word,
+            synonym: question.synonym,
+            distractors: _.without(question.distractors,null)
+        };
+        if(!session.questions){
+            session.questions = [];
+        }
+        session.questions.push(question_copy);
+        Meteor.call('session_update',session);
     }
-
-
 });

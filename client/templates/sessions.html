@@ -12,15 +12,20 @@
 
             {{#if currentSession}}
                 {{>sessionInProgress currentSession}}
+                <br />
+                <br />
             {{/if}}
 
             {{#unless currentSession}}
                 <div class="container">
                     <button id="btnNewSession" type="button" class="btn btn-info">
                         New Session
+                        <span class="glyphicon glyphicon-flash"></span>
                     </button>
                 </div>
+            {{/unless}}
 
+            {{#unless askingQuestions}}
                 <hr/>
 
                 <h3>Prior Sessions</h3>
@@ -175,10 +180,14 @@
 
     <tr>
         <td>
-            <input id="inpWord" type="text" value="{{word}}" placeholder="enter word" style="background-color: transparent" />
+            <input id="inpWord" type="text" value="{{word}}"
+                   placeholder="enter word" class="form-control"
+                   style="background-color: transparent" />
         </td>
         <td>
-            <input id="inpSynonym" type="text" value="{{synonym}}" placeholder="enter synonym" style="background-color: transparent" />
+            <input id="inpSynonym" type="text" value="{{synonym}}"
+                   placeholder="enter synonym" class="form-control"
+                   style="background-color: transparent" />
         </td>
         <td>
             {{#each distractors}}
@@ -190,7 +199,9 @@
                             style="cursor: pointer;"></span>
                 </div>
             {{/each}}
-            <input id="inpAddDistractor" type="text" placeholder="add distractor" style="background-color: transparent" />
+            <input id="inpAddDistractor" type="text"
+                   placeholder="add distractor" class="form-control"
+                   style="background-color: transparent" />
         </td>
         <td>
             <span id="btnDelete" class="glyphicon glyphicon-trash" aria-hidden="true" style="cursor: pointer;"></span>
@@ -205,7 +216,7 @@
         <div class="row">
             <div class="col-xs-4 col-md-3">
                 <span class="detail-label">started</span>
-                <span class="label label-info">{{formatDT startDT}}</span>
+                <b>{{formatDT startDT}}</b>
             </div>
             <div class="col-xs-4 col-md-3">
                 <span class="detail-label">ended</span>
@@ -246,10 +257,10 @@
 
         <div class="col-md-2">
             <span class="detail-label">word</span>
-            {{word}}
+            <span class="label label-primary">{{word}}</span>
         </div>
 
-        <div class="col-md-9">
+        <div class="col-md-7">
             <span class="detail-label">responses
                 <span class="badge">{{answers.length}}</span>
             </span>
@@ -265,6 +276,16 @@
                 <span class="label label-default">{{this}}</span>
             {{/each}}
         </div>
+
+        {{#if currentSession}}
+            <div class="col-md-2">
+                <button id="btnAskAgain" type="button" class="btn btn-default btn-sm">
+                    Ask Again
+                    <span class="glyphicon glyphicon-open"></span>
+                </button>
+            </div>
+        {{/if}}
+
     </div>
     <br />
 </template>
