@@ -3,7 +3,7 @@ Sessions = new Mongo.Collection('sessions');
 if(Meteor.isServer) {
 
     Meteor.publish('userSessions', function() {
-        return Sessions.find();
+        return Sessions.find({therapist: this.userId});
     });
 
     Meteor.methods({

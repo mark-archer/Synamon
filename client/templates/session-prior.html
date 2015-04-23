@@ -1,0 +1,30 @@
+<template name="priorSessionDetails">
+    <div class="page lists-show">
+
+        <nav class="js-title-nav">
+
+            <div class="nav-group">
+                <a href="#" class="js-menu nav-item"><span class="icon-list-unordered"></span></a>
+            </div>
+
+            {{#if currentClient}}
+                <h1 class="title-page" style="cursor: default;"><span class="title-wrapper">
+                Client: {{currentClient.name}}</span>
+                </h1>
+            {{/if}}
+
+        </nav>
+
+        <div class="container content-scrollable list-items">
+
+            <h3>Session</h3>
+
+        </div>
+    </div>
+
+</template>
+
+<template name="priorSessionQuestion">
+
+</template>
+

@@ -17,13 +17,6 @@
         </nav>
 
         <div class="container content-scrollable list-items">
-<pre>
-
-    start session
-        ask questions in lesson
-    end session
-    show previous sessions
-</pre>
 
             <h3>Current Session</h3>
             {{#if currentSession}}
@@ -83,21 +76,36 @@
             </ul>
         </div>
 
-        <div class="container col-md-8">
-            <div class="row">
-                <div class="jumbotron">
-                    <h1>{{word}}</h1>
-
+        {{#if currentQuestion}}
+            <div class="container col-md-8 question-container">
+                <div class="row">
+                    <div style="text-align: center">
+                        <h3>Word like: <b>{{word}}</b></h3>
+                    </div>
+                    <br />
+                </div>
+                <div class="row">
+                    {{#each answer_options}}
+                        <div class="col-md-4">
+                            <div class="answer jumbotron"  style="text-align: center; margin: 5px; cursor: pointer">
+                                {{this}}
+                            </div>
+                        </div>
+                    {{/each}}
                 </div>
             </div>
-            <div class="row">
-                {{#each answer_options}}
-                    <div class="jumbotron col-md-3">
-                        {{this}}
+        {{/if}}
+        {{#unless currentQuestion}}
+            <div class="container col-md-8">
+                <div class="row">
+                    <div style="text-align: center">
+                        <h3>All questions answered!</h3>
                     </div>
-                {{/each}}
+                    <br />
+                </div>
             </div>
-        </div>
+        {{/unless}}
+
 
     </div>
 </template>
@@ -178,17 +186,18 @@
 
         <div class="row col-md-12" style="margin: 10px;">
             <div class="col-xs-4 col-md-3" >
-                <button id="btnStartSession" type="button" class="btn btn-info">
+                <a href="/session/{{_id}}" type="button" class="btn btn-info">
                     View
                     <span class="glyphicon glyphicon-menu-right" style="cursor: pointer;" ></span>
-                </button>
+                </a>
             </div>
             <div class="col-xs-4 col-md-3">
                 <h5 style="margin: 5px;">Created</h5>
                 {{formatDT createDT}}
             </div>
             <div class="col-xs-4 col-md-3">
-                <!--can put more stuff here like last session notes-->
+                <h5 style="margin: 5px;">Ended</h5>
+                {{formatDT endDT}}
             </div>
         </div>
 

@@ -22,7 +22,10 @@ Template.sessions.helpers({
         var client = currentClient.get();
         if(!client)
             currentSession();
-        return currentClient.get();
+        client = currentClient.get();
+        if(!client)
+            Router.go('/clients');
+        return client;
     },
 
     currentSession: function(){
@@ -35,7 +38,7 @@ Template.sessions.helpers({
         if (client) {
             query.client = client._id;
         }
-        return Sessions.find(query, {sort: {startDT: 1, createDT: 1}}).fetch();
+        return Sessions.find(query, {sort: {createDT: -1}}).fetch();
     }
 
 });
@@ -45,7 +48,7 @@ Template.sessions.events({
         var client = currentClient.get();
         var session = {
             client: client._id,
-            theapist: Meteor.userId(),
+            therapist: Meteor.userId(),
             createDT: new Date()
         };
         Meteor.call('session_add',session, function(err,session_id){
@@ -87,8 +90,17 @@ Template.sessionManage.events({
 
     'click #btnStartSession': function(){
         var ses = currentSession();
-        ses.startDT = new Date();
-        ses.pauseDT = null;
+        if(ses.pauseDT){
+            ses.pauseDT = null;
+        } else {
+            ses.startDT = new Date();
+        }
+        Meteor.call('session_update', ses);
+    },
+
+    'click #btnEndSession': function(){
+        var ses = currentSession();
+        ses.endDT = new Date();
         Meteor.call('session_update', ses);
     }
 });
@@ -174,6 +186,8 @@ currentQuestion = function(){
 }
 
 Template.sessionAskQuestions.helpers({
+    currentQuestion: currentQuestion,
+
     word: function(){
         return currentQuestion().word;
     },
@@ -184,17 +198,58 @@ Template.sessionAskQuestions.helpers({
 
         options.push(question.synonym);
         options = _.shuffle(options);
-        console.log(options);
         return options;
     }
 });
 
+answerInProgress = false;
 Template.sessionAskQuestions.events({
 
     'click #btnPause': function(){
         var session = this;
         session.pauseDT = new Date();
         Meteor.call('session_update',session);
+    },
+
+    'click .answer': function(evt){
+        if(answerInProgress) return;
+        answerInProgress = true;
+        // get data we need
+        var session = currentSession();
+        var question = currentQuestion();
+        question = _.find(session.questions,function(q){
+            return q._id == question._id;
+        });
+        var word = this.toString();
+        var div = $(evt.target);
+
+        // record answer given
+        if(!question.answers)
+            question.answers = [];
+        question.answers.push(word);
+
+        // decide if correct or incorrect
+        var backgroundcolor_original = div.css('background-color');
+        var backgroundcolor_answer = 'red';
+        if(word == question.synonym) {
+            backgroundcolor_answer = 'green';
+            question.answered_correctDT = new Date();
+        }
+
+        // respond to answer
+        div.animate({opacity: '0'}, "slow", null, function(){
+            div.css('background-color', backgroundcolor_answer);
+        });
+        div.animate({opacity: '1'}, "slow", null, function(){
+            $('.question-container').fadeOut('slow', function(){
+                div.css('background-color', backgroundcolor_original);
+                Meteor.call('session_update', session, function(){
+                    $('.question-container').fadeIn('slow');
+                    answerInProgress = false;
+                });
+            });
+        });
     }
 
 });
+
