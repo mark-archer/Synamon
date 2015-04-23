@@ -142,6 +142,13 @@ Template.appBody.helpers({
             cmds.push({is_divider: true});
 
         cmds.push({
+            text:"Clients",
+            href: "/clients"
+        });
+
+        cmds.push({is_divider: true});
+
+        cmds.push({
             text: "Sign Out",
             cmd: function(){
                 Meteor.logout();
