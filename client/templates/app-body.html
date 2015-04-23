@@ -3,51 +3,51 @@
 
         <section id="menu">
             <div class="dropdown">
-
-            <span class="dropdown-toggle glyphicon glyphicon-menu-hamburger btn btn-default"
-                  style="cursor: pointer;"
-                  id="menuDDM" data-toggle="dropdown" aria-expanded="true">
-            </span>
+                <span class="dropdown-toggle glyphicon glyphicon-menu-hamburger btn btn-default"
+                      style="cursor: pointer;"
+                      id="menuDDM" data-toggle="dropdown" aria-expanded="true">
+                </span>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="menuDDM">
-                    <li role="presentation">
-
-                        <a role="menuitem" tabindex="-1" href="#">
-                            <span id="btnPause" class="glyphicon glyphicon-pause" style="cursor: pointer;">Pause Session</span>
-                        </a>
-                    </li>
-
+                    {{#each commands}}
+                        {{>command}}
+                    {{/each}}
                 </ul>
             </div>
+
         </section>
 
-        {{#unless connected}}
-            <div class="notifications">
-                <div class="notification">
-                    <span class="icon-sync"></span>
+        <div class="container-centered">
 
-                    <div class="meta">
-                        <div class="title-notification">Trying to connect</div>
-                        <div class="description">There seems to be a connection issue</div>
+            {{#unless connected}}
+                <div class="notifications">
+                    <div class="notification">
+                        <span class="icon-sync"></span>
+
+                        <div class="meta">
+                            <div class="title-notification">Trying to connect</div>
+                            <div class="description">There seems to be a connection issue</div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        {{/unless}}
+            {{/unless}}
 
-        {{#if errorsExist}}
-            <div class="notifications">
-                <div class="notification">
-                    <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+            {{#if errorsExist}}
+                <div class="notifications">
+                    <div class="notification">
+                        <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
 
-                    {{#each errors}}
-                        <div class="meta">
-                            <div class="title-notification">Error {{error}}</div>
-                            <div class="description">{{reason}}</div>
-                        </div>
-                        <br />
-                    {{/each}}
+                        {{#each errors}}
+                            <div class="meta">
+                                <div class="title-notification">Error {{error}}</div>
+                                <div class="description">{{reason}}</div>
+                            </div>
+                            <br />
+                        {{/each}}
+                    </div>
                 </div>
-            </div>
-        {{/if}}
+            {{/if}}
+
+        </div>
 
 
         <div id="content-container">
@@ -56,4 +56,13 @@
             {{/each}}
         </div>
     </div>
+</template>
+
+<template name="command">
+    {{#if is_divider}}
+        <li class="divider"></li>
+    {{/if}}
+    {{#unless is_divider}}
+        <li><a style="cursor: pointer;" href="{{href}}" title="{{title}}">{{text}}</a></li>
+    {{/unless}}
 </template>

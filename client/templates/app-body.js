@@ -11,6 +11,8 @@ var CONNECTION_ISSUE_TIMEOUT = 5000;
 
 var errors = new ReactiveVar([]);
 
+var menu_commands = new ReactiveVar([]);
+
 handle_error = function(err, callback){
     console.error(err);
     // add the error to the reactive var
@@ -116,12 +118,35 @@ Template.appBody.helpers({
         return errors.get();
     },
     commands: function(){
+        if(!Meteor.user()){
+            return [
+                {
+                    text:"Join",
+                    title: "Create an account",
+                    href: "/join"
+                },
+                {
+                    text:"Sign In",
+                    title: "Sign in with an existing account",
+                    href: "/signin"
+                }
+            ]
+        }
 
-        return [{
-            text:"join",
-            title: "create an account",
-            href: "/join"
-        }]
+        var cmds = [];
+
+        if(cmds.length)
+            cmds.push({is_divider: true});
+
+        cmds.push({
+            text: "Sign Out",
+            cmd: function(){
+                Meteor.logout();
+                Router.go('/signin');
+            }
+        });
+
+        return cmds;
     }
 
 });
@@ -163,3 +188,14 @@ Template.appBody.events({
         Router.go('listsShow', list);
     }
 });
+
+//Template
+
+Template.command.events({
+    'click a':function(){
+        var cmd = this;
+        if(cmd.cmd){
+            cmd.cmd();
+        }
+    }
+})
