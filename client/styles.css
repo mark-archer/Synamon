@@ -53,3 +53,8 @@
     top: 20px;
     right: 20px;
 }
+
+.detail-label{
+    font-style: italic;
+    opacity: .4;
+}

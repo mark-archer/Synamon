@@ -257,3 +257,17 @@ Template.sessionAskQuestions.events({
 
 });
 
+Template.priorSessionQuestion.helpers({
+
+    is_answer_correct: function(answer){
+        var question = Template.parentData(1);
+        return answer.toString() == question.synonym;
+    },
+
+    distractors_not_selected: function(){
+        var question = this;
+        return _.difference(question.distractors, question.answers);
+    }
+
+
+});
