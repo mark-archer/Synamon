@@ -7,21 +7,21 @@
 
 .container-centered {
     text-align: center;
-    background-color: #faba47;
+    /*background-color: #faba47;*/
 }
 
 .btn-primary{
-    background-color: #a65c04;
+    /*background-color: #a65c04;*/
 }
 .btn-primary:hover{
-    background-color: #b9820b;
+    /*background-color: #b9820b;*/
 }
 
 .link-auth-alt{
-    color: black
+    /*color: black*/
 }
 .link-auth-alt:hover{
-    color: blue;
+    /*color: blue;*/
 }
 
 
