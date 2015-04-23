@@ -1,0 +1,50 @@
+<template name="clients">
+
+    <div class="page lists-show">
+        <nav class="js-title-nav">
+
+            <div class="nav-group">
+                <a href="#" class="js-menu nav-item"><span class="icon-list-unordered"></span></a>
+            </div>
+
+            <h1 class="title-page" style="cursor: default;"><span class="title-wrapper">Clients</span></h1>
+
+            <form class="js-todo-new todo-new input-symbol">
+                <input type="text" placeholder="Type to add a new client">
+                <span class="icon-add js-todo-add"></span>
+            </form>
+        </nav>
+
+        <div class="container content-scrollable list-items">
+
+            {{#if zero_clients}}
+                <div class="wrapper-message">
+                    You don't have any clients listed.  Enter one up above to get started.
+                </div>
+            {{/if}}
+
+            {{#each clients}}
+                <div class="container">
+                    <div class="row" style="margin: 10px;">
+                        <div class="col-xs-3 col-md-4" >
+                            <button id="btnStartSession" type="button" class="btn btn-info">
+                                Sessions
+                                <span class="glyphicon glyphicon-menu-right" style="cursor: pointer;" ></span>
+                            </button>
+                        </div>
+                        <div class="col-xs-3 col-md-2">
+                            <h3 style="margin: 5px;">{{name}}</h3>
+                        </div>
+                        <div class="col-xs-3 col-md-3">
+                            <!--can put more stuff here like last session notes-->
+                        </div>
+                    </div>
+                </div>
+
+            {{/each}}
+
+
+        </div>
+    </div>
+
+</template>

@@ -1,0 +1,224 @@
+<template name="sessions">
+
+    <div class="page lists-show">
+
+        <nav class="js-title-nav">
+
+            <div class="nav-group">
+                <a href="#" class="js-menu nav-item"><span class="icon-list-unordered"></span></a>
+            </div>
+
+            {{#if currentClient}}
+                <h1 class="title-page" style="cursor: default;"><span class="title-wrapper">
+                Client: {{currentClient.name}}</span>
+                </h1>
+            {{/if}}
+
+        </nav>
+
+        <div class="container content-scrollable list-items">
+<pre>
+
+    start session
+        ask questions in lesson
+    end session
+    show previous sessions
+</pre>
+
+            <h3>Current Session</h3>
+            {{#if currentSession}}
+                {{>sessionInProgress currentSession}}
+            {{/if}}
+
+            {{#unless currentSession}}
+                <div class="container">
+                    <h5>You don't have a session in progress.</h5>
+                    <button id="btnNewSession" type="button" class="btn btn-info">
+                        New Session
+                    </button>
+                </div>
+
+                <hr/>
+
+                <h3>Prior Sessions</h3>
+                {{#unless priorSessions.length}}
+                    No prior sessions
+                {{/unless}}
+                {{#each priorSessions}}
+                    {{>priorSession}}
+                {{/each}}
+            {{/unless}}
+
+        </div>
+    </div>
+
+</template>
+
+<template name="sessionInProgress">
+
+    {{#if askingQuestions}}
+        {{>sessionAskQuestions}}
+    {{/if}}
+    {{#unless askingQuestions}}
+        {{>sessionManage}}
+    {{/unless}}
+
+</template>
+
+<template name="sessionAskQuestions">
+    <div class="container">
+        <div class="dropdown">
+
+            <span class="dropdown-toggle glyphicon glyphicon-menu-hamburger"
+                  style="cursor: pointer;"
+                  id="questionsDDM" data-toggle="dropdown" aria-expanded="true">
+            </span>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="questionsDDM">
+                <li role="presentation">
+                    <a role="menuitem" tabindex="-1" href="#">
+                        <span id="btnPause" class="glyphicon glyphicon-pause" style="cursor: pointer;" title="Add question" >Pause Session</span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+
+        <div class="container col-md-8">
+            <div class="row">
+                <div class="jumbotron">
+                    <h1>{{word}}</h1>
+
+                </div>
+            </div>
+            <div class="row">
+                {{#each answer_options}}
+                    <div class="jumbotron col-md-3">
+                        {{this}}
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+
+    </div>
+</template>
+
+<template name="sessionManage">
+    <div class="container">
+
+        <div class="row col-md-12" style="margin: 10px;">
+            <div class="col-xs-4 col-md-3" >
+                {{#unless startDT}}
+                    <button id="btnStartSession" type="button" class="btn btn-info">
+                        Start Session
+                    </button>
+                {{/unless}}
+                {{#if pauseDT}}
+                    <button id="btnStartSession" type="button" class="btn btn-info">
+                        Resume Session
+                    </button>
+                {{/if}}
+                {{#if startDT}}
+                    <button id="btnEndSession" type="button" class="btn btn-info">
+                        End Session
+                    </button>
+                {{/if}}
+            </div>
+            <div class="col-xs-4 col-md-3">
+                <h5 style="margin: 5px;">Created</h5>
+                {{formatDT createDT}}
+            </div>
+            <div class="col-xs-4 col-md-3">
+                {{#if startDT}}
+                    <h5 style="margin: 5px;">Started</h5>
+                    {{formatDT startDT}}
+                {{/if}}
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <br />
+            <h4>Questions
+                <span id="btnAddQuestion" class="glyphicon glyphicon-plus" style="cursor: pointer;" title="Add question" ></span>
+            </h4>
+            <br />
+            {{#unless questions.length}}
+                No questions, add some with the plus sign above
+            {{/unless}}
+            {{#if questions.length}}
+                <table class="table table-striped">
+                    <thead>
+                    <td>
+                        Word
+                    </td>
+                    <td>
+                        Synonym
+                    </td>
+                    <td>
+                        Distractors
+                    </td>
+                    <td>
+                        &nbsp;
+                    </td>
+                    </thead>
+                    <tbody>
+                    {{#each questions}}
+                        {{>sessionQuestion}}
+                    {{/each}}
+                    </tbody>
+                </table>
+            {{/if}}
+
+        </div>
+
+    </div>
+</template>
+
+<template name="priorSession">
+    <div class="container">
+
+        <div class="row col-md-12" style="margin: 10px;">
+            <div class="col-xs-4 col-md-3" >
+                <button id="btnStartSession" type="button" class="btn btn-info">
+                    View
+                    <span class="glyphicon glyphicon-menu-right" style="cursor: pointer;" ></span>
+                </button>
+            </div>
+            <div class="col-xs-4 col-md-3">
+                <h5 style="margin: 5px;">Created</h5>
+                {{formatDT createDT}}
+            </div>
+            <div class="col-xs-4 col-md-3">
+                <!--can put more stuff here like last session notes-->
+            </div>
+        </div>
+
+    </div>
+</template>
+
+<template name="sessionQuestion">
+
+    <tr>
+        <td>
+            <input id="inpWord" type="text" value="{{word}}" placeholder="enter word" style="background-color: transparent" />
+        </td>
+        <td>
+            <input id="inpSynonym" type="text" value="{{synonym}}" placeholder="enter synonym" style="background-color: transparent" />
+        </td>
+        <td>
+            {{#each distractors}}
+                <div style="margin: 10px;">
+                    <span>{{this}}</span>
+                    <span
+                        id="btnDeleteDistractor"
+                        class="glyphicon glyphicon-remove-sign" aria-hidden="true"
+                        style="cursor: pointer;"></span>
+                </div>
+            {{/each}}
+            <input id="inpAddDistractor" type="text" placeholder="add distractor" style="background-color: transparent" />
+        </td>
+        <td>
+            <span id="btnDelete" class="glyphicon glyphicon-trash" aria-hidden="true" style="cursor: pointer;"></span>
+        </td>
+    </tr>
+
+</template>

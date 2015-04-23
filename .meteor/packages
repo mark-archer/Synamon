@@ -9,3 +9,7 @@ insecure
 less
 iron:router
 accounts-password
+http
+reactive-var
+twbs:bootstrap
+momentjs:moment
