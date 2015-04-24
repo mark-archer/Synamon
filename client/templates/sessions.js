@@ -298,19 +298,5 @@ Template.priorSessionQuestion.events({
         }
         session.questions.push(question_copy);
         Meteor.call('session_update',session);
-    },
-
-    'click #btnNotes': function(){
-        var question = this;
-        var session = Template.parentData(1);
-        question = _.find(session.questions, function(q){
-            return q._id == question._id;
-        });
-        question.save = function(){
-            console.log('saving');
-            delete question.save;
-            Meteor.call('session_update', session);
-        };
-        notes_editing.set(question);
     }
 });

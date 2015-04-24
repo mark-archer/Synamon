@@ -234,7 +234,6 @@ Template.notes_editor.events({
         $(".notes_editor").hide('slow', function(){
             notes_editing.set(null);
         });
-        console.log(obj);
         obj.save();
     }
 
