@@ -204,7 +204,6 @@ Template.appBody.events({
     }
 });
 
-//Template
 
 Template.command.events({
     'click a':function(){
@@ -213,4 +212,30 @@ Template.command.events({
             cmd.cmd();
         }
     }
-})
+});
+
+
+notes_editing = new ReactiveVar(null);
+Template.notes_editor.helpers({
+    is_editing: function(){
+        return notes_editing.get();
+    },
+
+    notes: function(){
+        return notes_editing.get().notes;
+    }
+});
+
+Template.notes_editor.events({
+
+    'click #btnNotesClose': function(){
+        var obj = notes_editing.get();
+        obj.notes = $('#txtNotes').val();
+        $(".notes_editor").hide('slow', function(){
+            notes_editing.set(null);
+        });
+        console.log(obj);
+        obj.save();
+    }
+
+});

@@ -109,11 +109,6 @@ Template.sessionManage.events({
     }
 });
 
-Template.priorSession.helpers({
-    formatDT: formatDT
-});
-
-
 Template.sessionQuestion.helpers({
 
 });
@@ -257,6 +252,22 @@ Template.sessionAskQuestions.events({
 
 });
 
+Template.priorSession.helpers({
+    formatDT: formatDT
+});
+
+Template.priorSession.events({
+    'click #btnNotes': function(){
+        var session = this;
+        session.save = function(){
+            delete session.save;
+            Meteor.call('session_update', session);
+        };
+        notes_editing.set(session);
+    }
+});
+
+
 Template.priorSessionQuestion.helpers({
 
     is_answer_correct: function(answer){
@@ -287,5 +298,19 @@ Template.priorSessionQuestion.events({
         }
         session.questions.push(question_copy);
         Meteor.call('session_update',session);
+    },
+
+    'click #btnNotes': function(){
+        var question = this;
+        var session = Template.parentData(1);
+        question = _.find(session.questions, function(q){
+            return q._id == question._id;
+        });
+        question.save = function(){
+            console.log('saving');
+            delete question.save;
+            Meteor.call('session_update', session);
+        };
+        notes_editing.set(question);
     }
 });

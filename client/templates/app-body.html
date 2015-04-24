@@ -53,6 +53,8 @@
 
         </div>
 
+        {{>notes_editor}}
+
 
         <div id="content-container" class="content-container">
             {{#each thisArray}}
@@ -69,4 +71,24 @@
     {{#unless is_divider}}
         <li><a style="cursor: pointer;" href="{{href}}" title="{{title}}">{{text}}</a></li>
     {{/unless}}
+</template>
+
+<template name="notes_editor">
+
+    {{#if is_editing}}
+        <div class="notes_editor">
+            <div class="panel panel-default" style="margin-top: 20px">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Notes</h3>
+                </div>
+                <div class="panel-body">
+                    <textarea id="txtNotes" class="form-control" rows="10">{{notes}}</textarea>
+                    <div class="pull-right" style="margin-top: 10px;">
+                        <button id="btnNotesClose" class="btn btn-primary">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{/if}}
+
 </template>
